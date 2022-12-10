@@ -4,7 +4,7 @@ import numpy as np
 class TinyModel(torch.nn.Module):
 
     def forward(self, x):
-        return torch.mean(x)
+        return torch.mean(x,1)
 
 tinymodel = TinyModel()
 
@@ -12,7 +12,7 @@ x = np.array([[[5,2,3],[5,5,4]]])
 
 a=torch.FloatTensor(x)
  
-output = torch.mean(a)
+output = torch.mean(a,1)
 
 print("This are the input tensors:"+str(a))
 print("----------------------------------------------------")

@@ -3,22 +3,19 @@ import torch.nn as nn
 import numpy as np
 class TinyModel(torch.nn.Module):
 
-    def forward(self, x):
-        y = np.sum(np.square(x),0,float)
-        return torch.FloatTensor(y)
+    def forward(self, a, new_shape):
+        
+        return a.expand(new_shape)
 
 tinymodel = TinyModel()
-axes=None
-a = [[1.0,1.0,1.0],[1.0,1.0,1.0]]
-x = torch.FloatTensor(a)
 
-y =  np.sum(np.square(a),0,float)
-print(y)
-# a = torch.FloatTensor(y)
- 
-output = torch.FloatTensor(y)
+x = np.array([[1],[2],[3]])
+y = (3,4) 
 
-print("This are the input tensors:"+str(x))
+a=torch.FloatTensor(x)
+new_shape = y
+output = a.expand(new_shape)
+print("This are the input tensors:"+str(a)+" & output shape is  "+str(new_shape))
 print("----------------------------------------------------")
 print("This is the output:", output)
 saveOnnx=True
@@ -31,7 +28,8 @@ if savePtModel :
 
 if saveOnnx:
     torch.onnx.export(
-            tinymodel,(a),
-            "Reducesumsquare" + ".onnx",
+            tinymodel,
+            (a,new_shape),
+            "Expand" + ".onnx",
             export_params=True
     )
